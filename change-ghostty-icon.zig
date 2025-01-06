@@ -35,8 +35,6 @@ fn getExtendedAttribute(filepath: [*:0]const u8, attrname: [*:0]const u8) ?struc
     length: usize,
     buffer: []u8,
 } {
-    // const size: usize = @intCast(c.getxattr(filepath, attrname, null, 0, 0, 0));
-
     var buffer: [96637]u8 = undefined;
     const result: usize = @intCast(c.getxattr(filepath, attrname, &buffer, 96637, 0, 0));
     std.debug.print("max size {d}\n", .{std.math.maxInt(usize)});
@@ -88,11 +86,8 @@ fn setCustomIcon() !void {
 }
 
 fn formatIcnsHex(allocator: std.mem.Allocator, bytes: []const u8) ![]u8 {
-    // We'll build the grouped-hex string into a StringBuilder, then return it as a []u8 slice.
-    // var builder = std.StringBuilder.init(allocator);
     var list = std.ArrayList(u8).init(allocator);
     defer list.deinit();
-    //$"6963 6E73 0001 E176 6963 3132 0000 0740"
 
     for (bytes, 0..) |byte, i| {
         var buf: [40]u8 = undefined;
